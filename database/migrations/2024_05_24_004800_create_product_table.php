@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo_unico')->unique(); // Nueva columna para el código único
             $table->string('nombre');
             $table->text('descripcion')->nullable();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate()->cascadeOnDelete(); 
@@ -20,7 +21,6 @@ return new class extends Migration
             $table->foreignId('deposit_id')->constrained('deposits')->cascadeOnUpdate()->cascadeOnDelete(); 
             $table->decimal('precio_actual', 10, 2);
             $table->integer('stock_actual');
-            $table->string('codigo_barra')->nullable();
             $table->timestamps();
         });
     }

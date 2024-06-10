@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();  
             $table->integer('cantidad');
-            $table->dateTime('fecha');
+            $table->dateTime('fecha')->default(now()); // Establecer valor predeterminado
             $table->string('documento_referencia')->nullable();
             $table->timestamps();
         });

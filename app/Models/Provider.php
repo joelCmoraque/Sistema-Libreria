@@ -27,7 +27,7 @@ class Provider extends Model
     /**
      * @var array
      */
-    protected $fillable = ['nombre', 'direccion', 'telefono', 'email', 'created_at', 'updated_at'];
+    protected $fillable = ['razon_social', 'direccion', 'telefono', 'email', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

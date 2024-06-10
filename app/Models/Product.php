@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property integer $id
@@ -35,7 +37,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['category_id', 'provider_id', 'deposit_id', 'nombre', 'descripcion', 'precio_actual', 'stock_actual', 'codigo_barra', 'created_at', 'updated_at'];
+    protected $fillable = ['category_id', 'provider_id', 'deposit_id', 'nombre', 'descripcion', 'precio_actual', 'stock_actual',  'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -58,7 +60,8 @@ class Product extends Model
      */
     public function category()
     {
-        return $this->belongsTo('App\Models\Category');
+        
+        return $this->belongsTo(Category::class,'category_id');
     }
 
     /**
@@ -66,7 +69,8 @@ class Product extends Model
      */
     public function deposit()
     {
-        return $this->belongsTo('App\Models\Deposit');
+        
+        return $this->belongsTo(Deposit::class,'deposit_id');
     }
 
     /**
@@ -74,7 +78,8 @@ class Product extends Model
      */
     public function provider()
     {
-        return $this->belongsTo('App\Models\Provider');
+      
+        return $this->belongsTo(Provider::class,'provider_id');
     }
 
     /**
@@ -83,5 +88,54 @@ class Product extends Model
     public function historicals()
     {
         return $this->hasMany('App\Models\Historical');
+    }
+
+    // Evento de modelo para generar el código único antes de crear el producto
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($product) {
+            $product->codigo_unico = self::generateUniqueCode($product->nombre);
+        });
+    }
+
+    // Método para generar el código único basado en las iniciales del nombre del producto
+    protected static function generateUniqueCode($nombre)
+    {
+        $initials = self::getInitials($nombre);
+        $number = 1;
+        $codeLength = 6;
+        
+        // Calcula la longitud de las iniciales y el número secuencial
+        $initialsLength = strlen($initials);
+        $numberLength = strlen((string)$number);
+    
+        // Calcula cuántos ceros necesitas para llenar el código
+        $zeroPadding = max(0, $codeLength - $initialsLength - $numberLength);
+    
+        // Rellena con ceros a la izquierda si es necesario
+        $code = strtoupper($initials . str_repeat('0', $zeroPadding) . $number);
+    
+        // Verifica si el código generado ya existe en la base de datos
+        while (self::where('codigo_unico', $code)->exists()) {
+            $number++;
+            $numberLength = strlen((string)$number);
+            $zeroPadding = max(0, $codeLength - $initialsLength - $numberLength);
+            $code = strtoupper($initials . str_repeat('0', $zeroPadding) . $number);
+        }
+    
+        return $code;
+    }
+
+    // Método para obtener las iniciales del nombre
+    protected static function getInitials($nombre)
+    {
+        $words = explode(' ', $nombre);
+        $initials = '';
+        foreach ($words as $word) {
+            $initials .= substr($word, 0, 1);
+        }
+        return $initials;
     }
 }

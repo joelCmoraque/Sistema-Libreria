@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();  
             $table->integer('cantidad');
-            $table->dateTime('fecha');
+            $table->dateTime('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->decimal('precio_unitario', 10, 2);
             $table->foreignId('provider_id')->constrained('providers')->cascadeOnUpdate()->cascadeOnDelete(); 
             $table->string('documento_referencia')->nullable();
