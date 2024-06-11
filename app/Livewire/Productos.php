@@ -27,7 +27,7 @@ class Productos extends Component implements HasForms, HasTable
          ->query(Product::query())
          ->columns([
             Tables\Columns\TextColumn::make('codigo_unico')
-            ->label('Codigo')
+            ->label('Codigogg')
             ->sortable(),
             Tables\Columns\TextColumn::make('category.descripcion')->label('Categoría')->searchable(),
             Tables\Columns\TextColumn::make('provider.razon_social')->label('Proveedor')->searchable(),

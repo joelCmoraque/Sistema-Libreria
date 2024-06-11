@@ -98,7 +98,7 @@ class Entradas extends Component implements HasForms, HasTable
             
             Tables\Actions\CreateAction::make()
             ->modalHeading('Crear Nuevo')
-             ->label('Crear Nuevo')
+             ->label('Crear Nuevooo')
             ->model(Input::class)
             
             ->form([
