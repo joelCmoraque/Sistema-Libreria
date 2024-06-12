@@ -42,7 +42,7 @@ class Salidas extends Component implements HasForms, HasTable
          ->columns([
             Tables\Columns\TextColumn::make('id')
             ->searchable(),
-            Tables\Columns\TextColumn::make('product.nombre')->label('producto')->searchable()->numeric() ->sortable(),
+            Tables\Columns\TextColumn::make('product.nombre')->label('productoo')->searchable()->numeric() ->sortable(),
        
                 Tables\Columns\TextColumn::make('cantidad')
                     ->numeric()
