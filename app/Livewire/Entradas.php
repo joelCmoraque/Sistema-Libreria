@@ -12,11 +12,14 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Forms;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Blade;
+
 
 class Entradas extends Component implements HasForms, HasTable
 {
     use InteractsWithForms, InteractsWithTable;
+    
     public function render()
     {
         return view('livewire.entradas');
@@ -28,11 +31,14 @@ class Entradas extends Component implements HasForms, HasTable
          ->query(Input::query())
          ->columns([
             Tables\Columns\TextColumn::make('product.nombre')
+            ->label('Producto')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('provider.razon_social')
+                ->label('Proveedor')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                      ->searchable(),
                 Tables\Columns\TextColumn::make('cantidad')
                     ->numeric()
                     ->sortable(),
@@ -81,34 +87,71 @@ class Entradas extends Component implements HasForms, HasTable
             ->label('PDF')
             ->color('success')
             ->icon('heroicon-o-document')
-            ->action(function ($record) {
-                if ($record) {
-                    return response()->streamDownload(function () use ($record) {
-                        echo Pdf::loadView('livewire/report', ['record' => $record])->stream();
-                    }, $record->id . '.pdf');
+            ->action(function () {
+                // Obtener todos los registros de la tabla, por ejemplo, de la tabla "records"
+                $records = Input::all();
+                
+                if ($records->isNotEmpty()) {
+                    return response()->streamDownload(function () use ($records) {
+                        echo Pdf::loadView('livewire/report', ['records' => $records])->stream();
+                    }, 'todos_los_registros.pdf');
                 } else {
-                    // Manejar el caso en que $record es null
-                    // Puedes regresar una redirección o cualquier otra acción deseada
-                    return redirect()->back()->with('error', 'No se encontró el registro');
+                    // Manejar el caso en que no se encontraron registros
+                    return redirect()->back()->with('error', 'No se encontraron registros');
                 }
             }),
        
          ])
          ->headerActions([
-            
+
+           
+            Tables\Actions\Action::make('pdf') 
+            ->label('PDF')
+            ->color('success')
+            ->icon('heroicon-o-document')
+                      ->action(function () {
+                // Obtener los filtros activos de Filament
+                $filters = request()->input('filters');
+        
+                // Iniciar la consulta con todos los registros
+                $query = Input::query();
+        
+                // Aplicar los filtros activos a la consulta
+                if (!empty($filters)) {
+                    foreach ($filters as $filter => $value) {
+                        if ($value !== '') {
+                            $query->where($filter, $value);
+                        }
+                    }
+                }
+        
+                // Obtener los registros filtrados
+                $records = $query->get();
+        
+                if ($records->isNotEmpty()) {
+                    return response()->streamDownload(function () use ($records) {
+                        echo Pdf::loadView('livewire.report', ['records' => $records])->stream();
+                    }, 'registros_filtrados.pdf');
+                } else {
+                    // Manejar el caso en que no se encontraron registros
+                    return redirect()->back()->with('error', 'No se encontraron registros');
+                }
+            }),
             Tables\Actions\CreateAction::make()
             ->modalHeading('Crear Nuevo')
-             ->label('Crear Nuevooo')
+             ->label('Crear Nuevo')
             ->model(Input::class)
             
             ->form([
                 Forms\Components\Select::make('product_id')
                 ->relationship('product', 'nombre')
+                ->label('Producto')
                 ->required()
                 ->searchable()
                 ->preload(),
                     Forms\Components\Select::make('provider_id')
                     ->relationship('provider', 'razon_social')
+                    ->label('Proveedor')
                     ->required()
                     ->searchable()
                     ->preload(),

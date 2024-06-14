@@ -13,9 +13,9 @@ class StatsOverview extends BaseWidget
     {
         return [
             //
-            Stat::make('Unique views', '192.1k'),
-            Stat::make('Bounce rate', '21%'),
-            Stat::make('Average time on page', '3:12'),
+            Stat::make('Total de stock', '231.1k'),
+            Stat::make('Salida de Productos', '21%'),
+            Stat::make('Tiempo Sesión Activa', '01:15 '),
 
         ];
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,5 @@ Route::get('/', function () {
 
 Route::get('livewire/pdf', [App\Livewire\Entradas::class, 'pdf'])
 ->name('livewire/pdf');
+
+Route::get('livewire.pdf', [ReportController::class,'Registros'])->name('livewire.pdf');

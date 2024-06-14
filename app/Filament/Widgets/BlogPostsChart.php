@@ -6,7 +6,7 @@ use Filament\Widgets\ChartWidget;
 
 class BlogPostsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Chart 2';
+    protected static ?string $heading = 'Productos con Menos Stock';
     protected static ?int $sort = 3;
   
 

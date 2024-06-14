@@ -50,10 +50,7 @@ class Salidas extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('fecha')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('precio_unitario')
-                ->label('Precio U')
-                    ->numeric()
-                    ->sortable(),
+                
                 Tables\Columns\TextColumn::make('documento_referencia')
                 ->label('Archivo')
                     ->searchable(),
@@ -93,8 +90,7 @@ class Salidas extends Component implements HasForms, HasTable
                 $this->validateOnly($component->getStatePath());}),
             Forms\Components\DateTimePicker::make('fecha')
                 ->required(),
-            Forms\Components\DateTimePicker::make('fecha')
-                ->required(),
+           
             Forms\Components\TextInput::make('documento_referencia')
                 ->maxLength(255),
         ]),
@@ -110,6 +106,7 @@ class Salidas extends Component implements HasForms, HasTable
             ->form([
                 Forms\Components\Select::make('product_id')
                 ->relationship('product', 'nombre')
+                ->label('Producto')
                 ->required()
                 ->searchable()
                 ->preload()
@@ -131,7 +128,8 @@ class Salidas extends Component implements HasForms, HasTable
                 })
                 ->afterStateUpdated(function (Forms\Contracts\HasForms $livewire, Forms\Components\TextInput $component) {
                     $this->validateOnly($component->getStatePath());}),
-                Forms\Components\TextInput::make('documento_referencia')
+                 
+                Forms\Components\TextInput::make('archivo')
                     ->maxLength(255),
             ])
             ]);
