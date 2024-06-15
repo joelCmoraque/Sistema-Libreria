@@ -14,7 +14,7 @@ use Filament\Forms;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Blade;
-
+use Illuminate\Http\Request;
 
 class Entradas extends Component implements HasForms, HasTable
 {
@@ -105,29 +105,29 @@ class Entradas extends Component implements HasForms, HasTable
          ->headerActions([
 
            
-            Tables\Actions\Action::make('pdf') 
+            Tables\Actions\Action::make('pdf')
             ->label('PDF')
             ->color('success')
             ->icon('heroicon-o-document')
-                      ->action(function () {
-                // Obtener los filtros activos de Filament
-                $filters = request()->input('filters');
-        
-                // Iniciar la consulta con todos los registros
+            ->action(function (Request $request) {
+                // Obtener los filtros activos de la tabla
+                $filters = $request->input('filters', []);
+
+                // Iniciar la consulta
                 $query = Input::query();
-        
+
                 // Aplicar los filtros activos a la consulta
                 if (!empty($filters)) {
                     foreach ($filters as $filter => $value) {
-                        if ($value !== '') {
-                            $query->where($filter, $value);
+                        if (!is_null($value)) {
+                            $query->where($filter, 'like', '%' . $value . '%');
                         }
                     }
                 }
-        
+
                 // Obtener los registros filtrados
                 $records = $query->get();
-        
+
                 if ($records->isNotEmpty()) {
                     return response()->streamDownload(function () use ($records) {
                         echo Pdf::loadView('livewire.report', ['records' => $records])->stream();
@@ -137,6 +137,7 @@ class Entradas extends Component implements HasForms, HasTable
                     return redirect()->back()->with('error', 'No se encontraron registros');
                 }
             }),
+        
             Tables\Actions\CreateAction::make()
             ->modalHeading('Crear Nuevo')
              ->label('Crear Nuevo')
