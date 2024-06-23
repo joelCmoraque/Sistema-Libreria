@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Product;
+use App\Observers\StockObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +19,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            'App\Listeners\NotifyLowStockProducts',
         ],
     ];
 
@@ -26,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Product::observe( StockObserver::class);
     }
 
     /**

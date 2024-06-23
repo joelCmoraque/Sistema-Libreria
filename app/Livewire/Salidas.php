@@ -24,7 +24,14 @@ class Salidas extends Component implements HasForms, HasTable
     public $cantidad;
     public $product_id;
 
-   
+    public function validateQuantity($productId, $cantidad)
+    {
+        $product = Product::find($productId);
+        if ($product && $cantidad > $product->stock_actual) {
+            throw new \Exception("La cantidad ingresada es superior al stock actual ({$product->stock_actual}).");
+        }
+        return true;
+    }
 
     public function render()
     {
@@ -75,14 +82,12 @@ class Salidas extends Component implements HasForms, HasTable
             ->required()
             ->numeric()
             ->live()
-            ->rule(static function (Forms\Get $get): Closure {
-                return static function ( $value, Closure $fail) use ($get) {
-                    $productId = $get('product_id');
-                    if ($productId) {
-                        $product = Product::find($productId);
-                        if ($product && $value > $product->stock_actual) {
-                            $fail("La cantidad ingresada es superior al stock actual ({$product->stock_actual}).");
-                        }
+            ->rule(function (Forms\Get $get): Closure {
+                return function (string $attribute, $value, Closure $fail) use ($get) {
+                    try {
+                        $this->validateQuantity($get('product_id'), $value);
+                    } catch (\Exception $e) {
+                        $fail($e->getMessage());
                     }
                 };
             })
@@ -115,14 +120,12 @@ class Salidas extends Component implements HasForms, HasTable
                 ->required()
                 ->numeric()
                 ->live()
-                ->rule(static function (Forms\Get $get): Closure {
-                    return static function (string $attribute, $value, Closure $fail) use ($get) {
-                        $productId = $get('product_id');
-                        if ($productId) {
-                            $product = Product::find($productId);
-                            if ($product && $value > $product->stock_actual) {
-                                $fail("La cantidad ingresada es superior al stock actual ({$product->stock_actual}).");
-                            }
+                ->rule(function (Forms\Get $get): Closure {
+                    return function (string $attribute, $value, Closure $fail) use ($get) {
+                        try {
+                            $this->validateQuantity($get('product_id'), $value);
+                        } catch (\Exception $e) {
+                            $fail($e->getMessage());
                         }
                     };
                 })

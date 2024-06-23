@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Widgets\BlogPostsChart;
+use App\Http\Middleware\LogLoginTime;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -19,6 +20,13 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use App\Filament\Widgets\AnilChart;
+use App\Filament\Widgets\BarChart;
+use App\Filament\Widgets\LineChart;
+use App\Filament\Widgets\PieChart;
+use App\Filament\Widgets\tableInf;
+use Filament\Widgets\TableWidget;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -35,12 +43,17 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([   Pages\Dashboard::class, ])
+            ->pages([Pages\Dashboard::class,])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 StatsOverviewWidget::class,
-                BlogPostsChart::class
+                LineChart::class,
+                BarChart::class,
+                AnilChart::class,
+                tableInf::class,
+                PieChart::class,
             ])
+            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -51,6 +64,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                LogLoginTime::class,  // Añadir tu middleware personalizado aquí
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -59,8 +73,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->brandLogo(asset('images/fondo.png'))
             ->favicon(asset('images/fondo.png'))
-          /*  ->databaseNotifications()
-            ->databaseNotificationsPolling('3s')*/
-            ;
+            ->databaseNotifications()/*
+            ->databaseNotificationsPolling('3s')*/;
     }
 }

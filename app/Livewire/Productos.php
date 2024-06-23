@@ -12,12 +12,36 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Forms;
+use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
 
 class Productos extends Component implements HasForms, HasTable
 {
     use InteractsWithForms, InteractsWithTable;
     public function render()
     {
+        // Obtener todos los productos con stock por debajo del óptimo
+        $lowStockProducts = Product::where('stock_actual', '<', 20)->get();
+
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        if ($user && $lowStockProducts->isNotEmpty()) {
+            $productList = $lowStockProducts->pluck('nombre')->implode(', ');
+            $totalLowStockProducts = $lowStockProducts->count(); 
+
+            Notification::make()
+                ->title('Productos con stock bajo')
+                ->body('Hay un total de '. $totalLowStockProducts .' productos con stock por debajo del óptimo')
+                ->actions([
+                    Action::make('Revisar')
+                    ->button()
+                    ->url(route('stock-critico'))
+                ])
+                ->sendToDatabase($user); // Enviar notificación a la base de datos del usuario autenticado
+        }
+
         return view('livewire.productos');
     }
 
@@ -27,9 +51,9 @@ class Productos extends Component implements HasForms, HasTable
          ->query(Product::query())
          ->columns([
             Tables\Columns\TextColumn::make('codigo_unico')
-            ->label('Codigogg')
+            ->label('Codigo')
             ->sortable(),
-            Tables\Columns\TextColumn::make('category.descripcion')->label('Categoría')->searchable(),
+            Tables\Columns\TextColumn::make('category.nombre')->label('Categoría')->searchable(),
             Tables\Columns\TextColumn::make('provider.razon_social')->label('Proveedor')->searchable(),
             Tables\Columns\TextColumn::make('deposit.nombre')->label('Depósito')->searchable(),
         Tables\Columns\TextColumn::make('nombre')
@@ -92,7 +116,7 @@ class Productos extends Component implements HasForms, HasTable
             ->form([
                 Forms\Components\Select::make('category_id')
                 ->label('Categoría')
-                ->relationship('category', 'descripcion')
+                ->relationship('category', 'nombre')
                 ->required()
                 ->searchable()
                 ->preload(),
