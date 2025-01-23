@@ -29,7 +29,7 @@ class Input extends Model
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'provider_id', 'cantidad', 'fecha', 'precio_unitario', 'documento_referencia', 'created_at', 'updated_at'];
+    protected $fillable = ['product_id','cantidad','cantidad_restante', 'compra_unitaria','iva','costo_unitario','fecha_entrada',  'documento_referencia', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

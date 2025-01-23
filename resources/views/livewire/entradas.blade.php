@@ -4,3 +4,9 @@
     </section>
 
 </div>
+
+<script>
+    document.addEventListener('open-pdf', event => {
+        window.open(event.detail.url, '_blank');
+    });
+</script>

@@ -5,45 +5,60 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use App\Filament\Widgets\DateFilterWidget;
 
 class PieChart extends ChartWidget
 {
-    protected static ?string $heading = 'Productos más Vendidos';
-    protected static ?int $sort = 3;
+
+    use InteractsWithPageFilters;
+    protected static ?string $heading = 'Distribución de productos por categoría';
+    protected static bool $isLazy = false;
+    protected static ?int $sort = 1;
+
 
     protected function getData(): array
     {
-        // Consulta para obtener los 5 productos más vendidos
-        $productData = DB::table('outputs')
-            ->join('products', 'outputs.product_id', '=', 'products.id')
-            ->select(DB::raw('products.nombre, SUM(outputs.cantidad) as total_sales'))
-            ->groupBy('products.nombre')
-            ->orderByDesc('total_sales')
-            ->limit(5)
-            ->get();
+         // Obtener el filtro de categoría del Dashboard
+         $categoryFilter = $this->filters['category_filter'] ?? null;
 
-        // Preparar los datos para el gráfico
-        $labels = [];
-        $sales = [];
-        $colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']; // Colores personalizados
-
-        foreach ($productData as $data) {
-            $labels[] = $data->nombre;
-            $sales[] = $data->total_sales;
-        }
-
-        return [
-            'datasets' => [
-                [
-                    'label' => 'Cantidad de ventas',
-                    'data' => $sales,
-                    'backgroundColor' => $colors, // Colores de los resultados
-                ],
-            ],
-            'labels' => $labels,
-        ];
-    }
-
+         // Consulta para obtener la cantidad total vendida por categoría
+         $query = DB::connection('pgsql_second')
+             ->table('fact_transactions as f')
+             ->join('dim_products as p', 'f.product_key', '=', 'p.product_key')
+             ->select('p.category_nombre', DB::raw('SUM(f.quantity) as total_cantidad'))
+             ->where('f.transaction_type', 'output');
+ 
+         // Aplicar filtro de categoría si se ha seleccionado
+         if (!empty($categoryFilter)) {
+             $query->whereIn('p.category_id', $categoryFilter);
+         }
+ 
+         $results = $query->groupBy('p.category_nombre')->get();
+ 
+         // Formatear los datos para el gráfico
+         $labels = [];
+         $quantities = [];
+ 
+         foreach ($results as $result) {
+             $labels[] = $result->category_nombre;  // Nombre de la categoría
+             $quantities[] = $result->total_cantidad;  // Total de cantidad vendida
+         }
+ 
+         return [
+             'datasets' => [
+                 [
+                     'label' => 'Cantidad Vendida',
+                     'data' => $quantities,  // Valores para cada categoría
+                     'backgroundColor' => [
+                         '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                     ],  // Colores para cada categoría
+                 ],
+             ],
+             'labels' => $labels,  // Etiquetas de las categorías
+         ];
+     }
+ 
 
     protected function getType(): string
     {

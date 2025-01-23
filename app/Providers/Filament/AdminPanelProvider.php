@@ -26,7 +26,9 @@ use App\Filament\Widgets\BarChart;
 use App\Filament\Widgets\LineChart;
 use App\Filament\Widgets\PieChart;
 use App\Filament\Widgets\tableInf;
+use App\Livewire\PruebaChart;
 use Filament\Widgets\TableWidget;
+use Filament\Navigation\NavigationGroup;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -43,17 +45,15 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([Pages\Dashboard::class,])
+          
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                StatsOverviewWidget::class,
-                LineChart::class,
                 BarChart::class,
                 AnilChart::class,
                 tableInf::class,
                 PieChart::class,
             ])
-            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
+          //  ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -64,16 +64,23 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                LogLoginTime::class,  // Añadir tu middleware personalizado aquí
+                LogLoginTime::class, 
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])
             ->sidebarFullyCollapsibleOnDesktop()
             ->sidebarCollapsibleOnDesktop()
-            ->brandLogo(asset('images/fondo.png'))
-            ->favicon(asset('images/fondo.png'))
-            ->databaseNotifications()/*
+            ->brandLogo(asset('images/logo.png'))
+            ->favicon(asset('images/logo.png'))
+            ->databaseNotifications()
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Panel Administrativo')
+                    ->collapsible(false),
+
+            ]);/*
+            /*
             ->databaseNotificationsPolling('3s')*/;
     }
 }

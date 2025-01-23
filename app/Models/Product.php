@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
  * @property integer $category_id
  * @property integer $provider_id
  * @property integer $deposit_id
+ * @property integer $brand_id
  * @property string $nombre
  * @property string $descripcion
  * @property float $precio_actual
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\DB;
  * @property Output[] $outputs
  * @property Input[] $inputs
  * @property Category $category
+ * @property Brand $brand
  * @property Deposit $deposit
  * @property Provider $provider
  * @property Historical[] $historicals
@@ -37,7 +39,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['category_id', 'provider_id', 'deposit_id', 'nombre', 'descripcion', 'precio_actual', 'stock_actual',  'created_at', 'updated_at'];
+    protected $fillable = ['category_id', 'provider_id', 'deposit_id', 'brand_id','nombre', 'descripcion', 'precio_actual', 'stock_actual',  'unidad_medida', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -80,6 +82,15 @@ class Product extends Model
     {
       
         return $this->belongsTo(Provider::class,'provider_id');
+    }
+
+     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function brand()
+    {
+      
+        return $this->belongsTo(Brand::class,'brand_id');
     }
 
     /**

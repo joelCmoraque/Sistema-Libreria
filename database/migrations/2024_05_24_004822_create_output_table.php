@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('outputs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();  
+            $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('cantidad');
-            $table->dateTime('fecha')->default(now()); // Establecer valor predeterminado
+            $table->decimal('precio_unitario', 8, 2); // Campo para el precio unitario
+            $table->decimal('total', 8, 2);
+            $table->dateTime('fecha_salida')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('documento_referencia')->nullable();
             $table->timestamps();
         });

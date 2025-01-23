@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use App\Models\User;
@@ -20,7 +18,7 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->make([
             'email' => 'jcm@test.com',
-            'password' => bcrypt('1234'), // Replace with actual password
+            'password' => bcrypt('23232@#$ll'), 
         ]);
     
         $this->actingAs($user);

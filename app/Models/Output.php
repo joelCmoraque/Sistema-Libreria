@@ -26,7 +26,7 @@ class Output extends Model
     /**
      * @var array
      */
-    protected $fillable = ['product_id', 'cantidad', 'fecha', 'documento_referencia', 'created_at', 'updated_at'];
+    protected $fillable = ['product_id', 'cantidad','precio_unitario','total', 'fecha_salida', 'documento_referencia', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

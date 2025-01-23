@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Product;
+use Illuminate\Support\Facades\Gate;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -15,6 +16,13 @@ class StockCritico extends Component Implements HasForms, HasTable
 {
 
     use InteractsWithForms, InteractsWithTable;
+
+    public function mount()
+    {
+        if (Gate::denies('viewAny', Product::class)) {
+            abort(403, 'No tienes permiso para acceder a esta página.');
+        }
+    }
     public function render()
     {
 

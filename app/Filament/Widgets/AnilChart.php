@@ -4,53 +4,57 @@ namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
 class AnilChart extends ChartWidget
 {
-    protected static ?string $heading = 'Productos más Económicos';
-    protected static ?int $sort = 3;
+    use InteractsWithPageFilters;
+    protected static ?string $heading = 'Distribución de ventas por proveedor';
+    protected static bool $isLazy = false;
+    protected static ?int $sort = 1;
 
     protected function getData(): array
     {
-        // Consulta para obtener los 5 productos más económicos
-        $productData = DB::table('products')
-            ->select('nombre', 'precio_actual')
-            ->orderBy('precio_actual', 'asc')
-            ->limit(5)
-            ->get();
+        // Obtener el filtro de proveedor del Dashboard
+        $providerFilter = $this->filters['provider_filter'] ?? null;
 
-        // Preparar los datos para el gráfico
+        // Consulta para obtener las ventas totales por proveedor
+        $query = DB::connection('pgsql_second')
+            ->table('fact_transactions as f')
+            ->join('dim_products as p', 'f.product_key', '=', 'p.product_key')
+            ->select('p.provider_nombre', DB::raw('SUM(f.total_price) as total_ventas'))
+            ->where('f.transaction_type', 'output');
+
+        // Aplicar filtro de proveedor si se ha seleccionado
+        if (!empty($providerFilter)) {
+            $query->whereIn('p.provider_id', $providerFilter);
+        }
+
+        $results = $query->groupBy('p.provider_nombre')->get();
+
+        // Formatear los datos para el gráfico
         $labels = [];
-        $prices = [];
-        $colors = ['rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)']; // Colores personalizados
+        $sales = [];
 
-        foreach ($productData as $data) {
-            $labels[] = $data->nombre;
-            $prices[] = $data->precio_actual;
+        foreach ($results as $result) {
+            $labels[] = $result->provider_nombre;  // Nombre del proveedor
+            $sales[] = $result->total_ventas;  // Total de ventas por proveedor
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Precio de productos',
-                    'data' => $prices,
-                    'backgroundColor' => $colors, // Colores de los resultados
-                    'borderColor' => [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                    ],
+                    'label' => 'Ventas por Proveedor',
+                    'data' => $sales,  // Valores para cada proveedor
+                    'backgroundColor' => [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                    ],  // Colores para cada proveedor
                 ],
             ],
-            'labels' => $labels,
+            'labels' => $labels,  // Nombres de los proveedores
         ];
     }
+
 
     protected function getType(): string
     {

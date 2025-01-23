@@ -18,9 +18,11 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate()->cascadeOnDelete(); 
             $table->foreignId('provider_id')->constrained('providers')->cascadeOnUpdate()->cascadeOnDelete(); 
-            $table->foreignId('deposit_id')->constrained('deposits')->cascadeOnUpdate()->cascadeOnDelete(); 
+            $table->foreignId('deposit_id')->constrained('deposits')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('brand_id')->constrained('brands')->cascadeOnUpdate()->cascadeOnDelete();  
             $table->decimal('precio_actual', 10, 2);
             $table->integer('stock_actual');
+            $table->string('unidad_medida');
             $table->timestamps();
         });
     }

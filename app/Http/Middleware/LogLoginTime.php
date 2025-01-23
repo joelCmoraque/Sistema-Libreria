@@ -24,24 +24,29 @@ class LogLoginTime
             session(['login_time' => now()]);
         }
 
-        // Ejecutar la lógica de notificación antes de devolver la respuesta
+       // Ejecutar la lógica de notificación antes de devolver la respuesta
         if (Auth::check() && !session()->has('low_stock_notified')) {
+            /** @var \App\Models\User $user */
             $user = Auth::user();
-            $lowStockProducts = Product::where('stock_actual', '<', 20)->get();
 
-            if ($lowStockProducts->isNotEmpty()) {
-                $totalLowStockProducts = $lowStockProducts->count();
+          
+            if ($user->hasRole(['admin','encargado'])) {
+                $lowStockProducts = Product::where('stock_actual', '<', 20)->get();
 
-                Notification::make()
-                    ->title('Productos con stock bajo')
-                    ->body('Hay un total de ' . $totalLowStockProducts . ' productos con stock por debajo del óptimo')
-                    ->actions([
-                        Action::make('Revisar')
-                        ->button()
-                        ->url(route('stock-critico'))
-                    ])
-                    ->sendToDatabase($user); // Enviar notificación a la base de datos del usuario autenticado
+                if ($lowStockProducts->isNotEmpty()) {
+                    $totalLowStockProducts = $lowStockProducts->count();
+
+                    Notification::make()
+                        ->title('Productos con stock bajo')
+                        ->body('Hay un total de ' . $totalLowStockProducts . ' productos con stock por debajo del óptimo')
+                        ->actions([
+                            Action::make('Revisar')
+                                ->button()
+                                ->url(route('stock-critico'))
+                        ])
+                        ->sendToDatabase($user); // Enviar notificación a la base de datos del usuario autenticado
                     session(['low_stock_notified' => true]);
+                }
             }
         }
 

@@ -34,7 +34,7 @@ class NotifyLowStockProducts
 
             Notification::make()
                 ->title('Productos con stock bajo')
-                ->body('Hay un total de '. $totalLowStockProducts .' productos con stock por debajo del óptimo')
+                ->body('Hay un total de '. $totalLowStockProducts .' productos con stock por debajo del óptimoooooses')
                 ->actions([
                     Action::make('Revisar')
                     ->button()

@@ -1,3 +1,373 @@
 @import '/vendor/filament/filament/resources/css/theme.css';
 
 @config 'tailwind.config.js';
+
+
+:root:not(.dark) {
+    /* Todos los estilos que deseas aplicar solo en modo claro */
+    /* Por ejemplo: */
+   /*cabecera del sidebar de opciones*/
+
+
+
+   .fi-simple-main {
+    /* Agregar un degradado centrado */
+    background-image: linear-gradient(#2365eb, #7792c9, #2365eb);}
+
+@media (min-width: 1024px) {
+    .mi-clase-sombra {
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5); /* Modificar según tu estilo de sombra */
+    }
+}
+
+
+.fi-sidebar-nav {
+   
+   background-image: linear-gradient(#ffab08eb, rgba(207, 171, 8, 0.637), rgba(255 171 8 / 92%));
+   
+    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.5) !important;
+
+}
+
+/*.fi-wi-widget{
+    background-color: #f5cb5c;
+}
+
+*/
+main{
+    background-color: rgb(255, 255, 255);
+}
+
+
+
+/*.flex.h-16 {
+    background-color: rgb(35, 101, 235) !important;
+    box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.5) !important;
+}*/
+/*
+.bg-white.px-4{
+    --tw-bg-opacity: 1;
+    background-color: rgb(71, 76, 85);
+    background-color: rgb(59, 117, 235);
+}*/
+.text-gray-700 {
+    --tw-text-opacity: 1;
+    color: rgb(0, 0, 0);
+}
+.text-gray-400 {
+    --tw-text-opacity: 1;
+    color: rgb(245, 245, 245);}
+  /*  .fi-sidebar-item-icon.h-6{
+color: black;
+    }*/
+    .text-primary-600 {
+        --tw-text-opacity: 1;
+        color:rgb(255, 255, 255);
+    }
+
+  /*selector options*/
+  .bg-gray-100 {
+        --tw-bg-opacity: 1;
+        background-color: #7a94cb;
+    }
+
+    .hover\:bg-gray-100:hover {
+        --tw-bg-opacity: 1;
+        background-color: #2365eb!important; /* Este es tu tono de azul */
+        /* Cambios de color para el contenido dentro del hover */
+        .text-gray-400 {
+            --tw-text-opacity: 1;
+            color: rgb(255, 218, 10) !important;
+        }
+        .text-primary-600 {
+            --tw-text-opacity: 1;
+            color: rgb(255, 255, 255);
+        }
+        /* Agrega cualquier otro estilo que desees cambiar dentro del hover */
+    }
+
+    .text-gray-950 {
+        --tw-text-opacity: 1;
+        color:rgb(0, 0, 0);
+    }
+    .fi-header-heading{
+        color: black;
+    }
+
+ /*   .fi-main{
+        background-color: #7a94cb;
+    }*/
+
+   /* .fi-wi-chart{
+        background-color: #f5cb5c;
+    }*/
+   /* .fi-section-content.p-6{
+        background-color: #f5cb5c;
+    }*/
+   
+    .fi-wi-stats-overview-stat {
+
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* sombra suave hacia abajo */
+                    0 6px 20px rgba(0, 0, 0, 0.1); /* sombra más difusa */
+        /* Otros estilos que necesites */
+    }
+  
+    .counter-fi{
+        color: black;
+    }
+    
+
+
+   
+    span.text-sm.font-medium 
+    {
+color: black;
+font-weight: bold;
+    }
+   
+.fi-ta-ctn{
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+.fi-ta-header{
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+.fi-ta-header-toolbar{
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+   
+   /*CAMBIA EL COLOR DE TODOS LOS BOTONES*/
+   .bg-custom-600 {
+        --tw-bg-opacity: 1;
+        background-color: #2365eb;
+    }
+
+
+    .fi-input{
+        background-color: rgb(255, 255, 255);
+    }
+/*LOGIN */
+
+
+    .fi-simple-layout {
+        /* Agregar un degradado */
+        background-image: linear-gradient(rgba(248, 122, 4, 0.918), rgba(207, 171, 8, 0.637));
+    }
+    .fi-input.text-base{
+        color: black;
+    }
+
+   
+
+    
+   
+    
+.fi-icon-btn:hover{
+    background-color: #7b97d5;
+}
+
+.fi-btn-icon.h-5.w-5{
+    color: white !important;
+}
+
+.fi-section-header-icon{
+    color: #2365eb;
+}
+
+.fi-btn.relative:hover{
+    background-color: #4d81eb;
+}
+.fi-modal-close-btn{
+    color: #2365eb;
+}
+
+/*.sm\:max-w-lg {
+    max-width: 25rem;
+    max-height: 50rem;
+}
+
+.sm\:max-w-7xl {
+    max-width: 20rem
+}*/
+
+.sm\:max-w-lg {
+    max-width: 25rem !important;}
+
+.fi-sidebar-item-icon{
+    color: #2365eb;
+}
+
+/*color de header tabla*/
+.fi-ta-header-cell{
+    background-color: #2365eb!important;
+}
+.w-1 {
+    background-color: #2365eb!important;
+}
+.fi-ta-cell{
+    background-color: white!important;
+
+}
+.fi-checkbox-input{
+    color: #265af3;
+}
+/*.fi-section-header{
+    background-color:#2365eb!important;
+    border-radius:2px !important;
+}*/
+
+.fi-ta-text-item-label{
+    color: black;
+}
+
+.fi-sidebar-header {
+    box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.5) !important;}
+    .h-5.w-5{
+        color: rgb(59, 117, 235) !important;
+    }
+
+    :root:not(.dark) .text-gray-700 {
+        --tw-text-opacity: 1;
+        color: #000000 !important;
+    }
+
+    .fi-sidebar-group-label{
+    color: rgb(21, 89, 227) !important;
+    }
+/*.fi-main{
+    background-color: aliceblue!important;
+}*/
+.fi-main{
+    background-color: rgb(255, 255, 255)!important;
+}
+   
+    
+    /* Continúa con el resto de estilos que deseas aplicar solo en modo claro */
+}
+
+
+
+:root.dark {
+    .sm\:max-w-lg {
+        max-width: 25rem !important;}
+        .dark\:bg-gray-950:is(.dark *) {
+            --tw-bg-opacity: 1;
+            background-color: rgb(29 31 53);
+        }
+        #data\.email.fi-input{
+            background-color: rgb(29, 31, 53,0.9);
+        }
+        #data\.password.fi-input{
+            background-color: rgb(29, 31, 53,0.9);
+        }
+
+        .dark\:bg-gray-900:is(.dark *) {
+            --tw-bg-opacity: 1;
+            background-color: rgb(29 31 53);
+        }
+
+        .fi-simple-main {
+            /* Agregar un degradado centrado */
+            background-image: linear-gradient(
+            rgba(35, 101, 235, 0.8), 
+            rgba(119, 146, 201, 0.8), 
+            rgba(35, 101, 235, 0.8)
+        );}
+
+        .fi-icon-btn{
+            color: rgb(247, 247, 247);
+        }
+
+        .mensaje{
+            color: #000000;
+        }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+   
+
+    /* When scrolling to validation error, do not hide element behind the top bar */
+    [data-field-wrapper] {
+        scroll-margin-top: 8rem;
+    }
+
+    /*LOGO OPCIONES*/
+    .fi-logo.inline-flex {
+        height: 3rem !important; /* Cambia este valor según tu preferencia */
+        /* Si deseas mantener la proporción, también puedes establecer el ancho en consecuencia */
+        /* width: auto; */
+    }
+
+    /*DISEÑO DEL LOGIN*/
+
+    .fi-simple-main {
+        /* Agregar un degradado centrado */
+   
+        background-position: center;
+         /* Propiedades del borde */
+ 
+    /* Agregar sombreado */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    /* Reducir el padding */
+    padding-top: 1.5rem !important; /* Puedes ajustar el valor según tus necesidades */
+    padding-bottom: 1.5rem !important;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+    }
+
+     /*LOGO LOGIN*/
+     .fi-logo.inline-flex.mb-4 {
+        height: 10rem !important;
+        margin-top: 0rem !important;
+        margin-bottom: 0rem !important; /* Cambia este valor según tu preferencia */
+        /* Si deseas mantener la proporción, también puedes establecer el ancho en consecuencia */
+        /* width: auto; */
+    }
+    .fi-sidebar-nav::-webkit-scrollbar{
+        overflow: hidden; 
+        width: 0; 
+    }
+
+    .fi-sidebar-header {
+        background-color: rgb(35, 101, 235) !important;
+    }
+
+    .fi-topbar{
+        background-color: #2365eb !important;
+    }
+
+    /*barra inicio sesion*/
+.flex.h-16 {
+    background-color: rgb(35, 101, 235) !important;
+}
+.fi-sidebar-nav-groups.gap-y-7{
+
+    row-gap: 0.1rem;
+}
+.fi-sidebar-nav.py-8{
+    padding-top: 1rem;
+}
+
+.background-main {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+
+}
+
+

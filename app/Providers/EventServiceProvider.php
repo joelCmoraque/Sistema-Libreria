@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Output;
 use App\Models\Product;
 use App\Observers\StockObserver;
+use App\Observers\StockOutObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -30,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     {
         //
         Product::observe( StockObserver::class);
+        Output::observe( StockOutObserver::class);
     }
 
     /**

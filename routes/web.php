@@ -4,6 +4,7 @@ use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Filament\Pages\StockCritico;
+use App\Http\Controllers\PdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,6 @@ Route::get('/', function () {
 Route::get('livewire/pdf', [App\Livewire\Entradas::class, 'pdf'])
 ->name('livewire/pdf');
 
-Route::get('livewire.pdf', [ReportController::class,'Registros'])->name('livewire.pdf');
-
 Route::get('/stock-critico', StockCritico::class)->name('stock-critico');
+
+Route::get('/download-pdf', [PdfController::class, 'downloadPdf'])->name('download-pdf');

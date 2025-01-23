@@ -1,7 +1,10 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\Deposit;
+use App\Models\Brand;
+use App\Models\Provider;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -29,6 +32,9 @@ class DepositSeeder extends Seeder
         ]);
         Deposit::create([
             'nombre' => 'Deposito 5',
+        ]);
+        Provider::create([
+            'razon_social' => 'no aplica',
         ]);
     }
 }
