@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.1 ||^8.3",
+        "php": "^8.3",
         "althinect/filament-spatie-roles-permissions": "^2.2",
         "aymanalhattami/filament-date-scopes-filter": "^1.0",
         "barryvdh/laravel-dompdf": "^2.2",
@@ -28,7 +28,6 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.9.1",
-        "fly-apps/dockerfile-laravel": "^1.0",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
