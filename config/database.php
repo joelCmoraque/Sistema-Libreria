@@ -83,7 +83,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST_second', '127.0.0.1'),
             'port' => env('DB_PORT_second', '5432'),
-            'database' => env('DB_DATABASE_second', 'datajl'),
+            'database' => env('DB_DATABASE_second', 'forge'),
             'username' => env('DB_USERNAME_second', 'forge'),
             'password' => env('DB_PASSWORD_second', ''),
             'charset' => 'utf8',

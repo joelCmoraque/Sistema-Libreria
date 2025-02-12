@@ -60,11 +60,12 @@ class AdminPanelProvider extends PanelProvider
                 StartSession::class,
                 AuthenticateSession::class,
                 ShareErrorsFromSession::class,
+                LogLoginTime::class, 
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                LogLoginTime::class, 
+               
             ])
             ->authMiddleware([
                 Authenticate::class,
