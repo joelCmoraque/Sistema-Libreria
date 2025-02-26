@@ -25,7 +25,7 @@ RUN composer install --no-dev --optimize-autoloader && \
     php artisan octane:install --server="swoole"
 
 # Configurar entorno y permisos
-COPY .envDev .env
+COPY .env.example .env
 RUN mkdir -p /app/storage/logs && \
     chmod -R 775 /app/storage
 
