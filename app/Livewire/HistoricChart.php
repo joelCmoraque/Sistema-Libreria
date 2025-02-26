@@ -72,7 +72,7 @@ class HistoricChart extends ChartWidget
             $totalOutputs[] = $totalQuantity;
 
             // Devolver el nombre del mes en español
-            return $meses[$month - 1]; // Restamos 1 porque los meses en PHP se indexan desde 0
+            return $meses[$month - 1]; 
         })->toArray(); // Convertir la colección resultante en un arreglo
 
         // Devolver un arreglo con los totales de salidas por mes y los nombres de los meses

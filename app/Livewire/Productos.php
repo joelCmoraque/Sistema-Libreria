@@ -46,7 +46,6 @@ class Productos extends Component implements HasForms, HasTable
         return true;
     }
 
-    // En tu componente Livewire
     public $nombre;
 
 

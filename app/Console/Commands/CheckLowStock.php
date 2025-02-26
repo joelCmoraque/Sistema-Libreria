@@ -35,7 +35,7 @@ class CheckLowStock extends Command
             return;
         }
 
-        $admin = User::find(1); // Asumiendo que el administrador tiene el ID 1
+        $admin = User::find(1); 
 
         if ($admin) {
             $productNames = $products->pluck('name')->implode(', ');
